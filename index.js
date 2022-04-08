@@ -2,7 +2,6 @@ import ArLocal from 'arlocal';
 import armutable from 'armutable';
 import Arweave from 'arweave';
 import axios from 'axios';
-import fs from 'fs';
 
 const ARWEAVE_PORT = 1984;
 const LOGGING = false;
@@ -31,19 +30,21 @@ const arweave = Arweave.init({
   console.log({ walletBalance });
 
   // create a new "thread"
-  const myFile = fs.readFileSync("myfile.txt").toString();
-  const threadId = await armutable.newThread(arweave, myFile, walletKey);
+  const data = "hello world";
+  const threadId = await armutable.newThread(arweave, data, walletKey);
 
   console.log({ threadId });
 
   const newData = `hellow woorrrrld!`;
-
   const updatedTxId = await armutable.updateThread(
     arweave,
     threadId,
     newData,
     walletKey
   );
+
+  // mine a block
+  await axios.get(`http://localhost:${ARWEAVE_PORT}/mine`);
 
   console.log({ updatedTxId });
 
