@@ -34,6 +34,9 @@ const arweave = Arweave.init({
   const threadId = await armutable.newThread(arweave, data, walletKey);
 
   console.log({ threadId });
+  
+  // mine a block
+  await axios.get(`http://localhost:${ARWEAVE_PORT}/mine`);
 
   const newData = `hellow woorrrrld!`;
   const updatedTxId = await armutable.updateThread(
